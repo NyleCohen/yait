@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const createOrgSchema = new mongoose.Schema({
+const orgSchema: mongoose.Schema = new mongoose.Schema({
     id: {
         type: Number,
         required: true,
@@ -10,10 +10,14 @@ const createOrgSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-}, { autoCreate: true, capped: 1024 });
+    admin_emails: {
+        type: Array,
+        required: true
+    },
+    user_emails: {
+        type: Array,
+        required: false,
+    }
+});
 
-function createOrg(colName: string) {
-    mongoose.model(colName, createOrgSchema);
-}
-
-module.exports = createOrg;
+module.exports = mongoose.model('org', orgSchema);
