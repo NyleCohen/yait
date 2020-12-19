@@ -1,6 +1,8 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import path from 'path';
 import bodyParser from 'body-parser';
+import { v4 as uuidv4 }from 'uuid';
 
 const connectDB = require('./config/db');
 const Org = require('./model/createOrg');
@@ -17,8 +19,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createOrg', async (req, res) => {
+    const orgUuid: string = uuidv4();
+
     const org = new Org({ 
-        name: req.body.orgname
+        org_id: orgUuid,
+        name: req.body.orgname,
+        admin_emails: req.body.admin_emails 
     });
 
     org
@@ -26,15 +32,25 @@ app.post('/createOrg', async (req, res) => {
         .then( (result: any) => {
             console.log(result);
         })
-        .catch((err: any) => console.log(err));
+        .catch((err: any) => {
+            console.log(err);
+            res.send(500);
+        })
 
     res.status(200);
-    res.redirect('/');
+    res.redirect('/org?orgId=' + orgUuid);
 });
 
 app.post('/createIssue', async (req, res) => {
-    console.log(req.body);
-})
+    res.send(req.body);
+});
+
+app.get('/org/:orgId', async (req, res) => {
+    const orgId = await Org.findOne({ org_id: req.params.orgId });
+    if(orgId == null) return res.sendStatus(404);
+
+    res.sendFile(path.join(__dirname + '/views/org.html'))
+});
 
 app.listen(port, () => {
     console.log("Online on port", port);

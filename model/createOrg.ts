@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const orgSchema: mongoose.Schema = new mongoose.Schema({
+    org_id: {
+        type: String,
+        required: true
+    },
     id: {
         type: Number,
         required: true,
