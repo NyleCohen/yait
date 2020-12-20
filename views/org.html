@@ -22,6 +22,13 @@
   <body>
     <h1 id="head"></h1>
 
+    <button
+      class="btn btn-success"
+      onclick="window.location.href = window.location.href + 'createIssue'"
+    >
+      Create Issue
+    </button>
+
     <script>
       url = window.location.href;
       $.get(url + "orgMeta", function (data) {

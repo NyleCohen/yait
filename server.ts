@@ -55,8 +55,8 @@ app.get("/org/:orgId/orgMeta", async (req, res) => {
   res.json(await Org.findOne({ org_id: req.params.orgId }));
 });
 
-app.post("/createIssue", async (req, res) => {
-  res.send(req.body);
+app.get("/org/:orgId/createIssue", async (req, res) => {
+  res.sendFile(path.join(__dirname + "/views/createissue.html"));
 });
 
 app.listen(port, () => {
