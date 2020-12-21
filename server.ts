@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const connectDB = require("./config/db");
 const Org = require("./model/createOrg");
+const Issue = require("./model/createIssue");
 const app: express.Application = express();
 const port: number = 8080;
 
@@ -13,17 +14,17 @@ connectDB();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const orgUuid = uuidv4();
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/views/index.html"));
 });
 
 app.post("/createOrg", async (req, res) => {
-  const orgUuid = uuidv4();
-
   const org = new Org({
     org_id: orgUuid,
     name: req.body.orgname,
-    admin_emails: req.body.admin_emails,
+    admin_emails: req.body.admin_email,
   });
 
   org
@@ -57,6 +58,27 @@ app.get("/org/:orgId/orgMeta", async (req, res) => {
 
 app.get("/org/:orgId/createIssue", async (req, res) => {
   res.sendFile(path.join(__dirname + "/views/createissue.html"));
+});
+
+app.post("/org/:orgId/createIssue", async (req, res) => {
+  const issue = new Issue({
+    id: 1,
+    org_id: req.body.orgId,
+    title: req.body.title,
+    description: req.body.description,
+  });
+
+  issue
+    .save()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(500);
+    });
+
+  res.status(200);
 });
 
 app.listen(port, () => {
