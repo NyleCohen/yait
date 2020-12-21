@@ -33,7 +33,6 @@
         role="form"
       >
         <div class="form-group">
-          <input type="hidden" id="orgId" name="orgId" value="" />
           <label for="title" class="sr-only">Organization Name</label>
           <input
             type="text"
@@ -45,15 +44,12 @@
             \
           /><br />
           <label for="description" class="sr-only">Description</label>
-          <input
+          <textarea
             type="markdown"
             name="description"
             id="description"
             class="form-control mr-2 col"
-            required
-            placeholder="I turned it off and on, but it didnt work"
-            \
-          /><br />
+            required></textarea><br/>
         </div>
         <button class="btn btn-success" onclick="submit();">
           Create Issue

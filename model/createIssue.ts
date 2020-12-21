@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const issueSchema: mongoose.Schema = new mongoose.Schema({
   id: {
-    type: Number,
+    type: String,
     //required: true,
   },
   org_id: {

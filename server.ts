@@ -61,24 +61,33 @@ app.get("/org/:orgId/createIssue", async (req, res) => {
 });
 
 app.post("/org/:orgId/createIssue", async (req, res) => {
+  const urlOrgId = req.originalUrl.split("/");
+
   const issue = new Issue({
-    id: 1,
-    org_id: req.body.orgId,
+    id: uuidv4(),
+    org_id: urlOrgId[2],
     title: req.body.title,
     description: req.body.description,
   });
 
   issue
     .save()
-    .then((result) => {
+    .then((result: String) => {
       console.log(result);
     })
-    .catch((err) => {
+    .catch((err: String) => {
       console.log(err);
       res.send(500);
     });
 
   res.status(200);
+});
+
+app.get("/org/:orgId/issues", async (req, res) => {
+  const urlOrgId = req.originalUrl.split("/");
+  const issues = await Issue.find({ org_id: urlOrgId }).where("id != 0");
+
+  res.json(issues);
 });
 
 app.listen(port, () => {
