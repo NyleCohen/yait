@@ -52,13 +52,17 @@
           "Your browser doesnt have support for webstorage, please revisit this site on a newer browser"
         );
       }
-      url = localStorage.getItem("orgUrl");
+      const url = localStorage.getItem("orgUrl");
       $.get(url + "/orgMeta", function (data) {
         res = JSON.stringify(data);
         resJson = JSON.parse(res);
         document.title = resJson.name;
         document.getElementById("head").innerHTML = resJson.name;
       });
+
+$.get(url + "/issues", function(data) {
+    document.createElement("")
+});
 
       document.getElementById("createIssueBtn").onclick = function () {
         location.href = url + "/createIssue";
